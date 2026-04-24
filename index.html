@@ -253,34 +253,67 @@
     flex-shrink: 0;
   }
 
-  .klanten-block { }
+  .klanten-block { display: none; }
 
-  .klanten-title {
+  /* KLANTEN SCROLL */
+  .klanten-scroll {
+    background: var(--navy);
+    padding: 60px 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .klanten-scroll-label {
+    text-align: center;
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: var(--ocean);
-    margin-bottom: 24px;
+    margin-bottom: 32px;
   }
 
-  .klanten-list {
+  .klanten-scroll-wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 0;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
   }
 
-  .klant-item {
-    padding: 18px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.5);
-    font-size: 14px;
+  .klanten-scroll-track {
+    display: flex;
+    animation: klanten-loop 40s linear infinite;
+    white-space: nowrap;
+  }
+
+  .klanten-scroll-track:hover { animation-play-state: paused; }
+
+  .klant-scroll-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 40px;
+    font-size: 15px;
     font-weight: 300;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
     letter-spacing: 0.5px;
     transition: color 0.2s;
+    position: relative;
   }
 
-  .klant-item:hover { color: white; }
+  .klant-scroll-item::after {
+    content: '·';
+    position: absolute;
+    right: 0;
+    color: rgba(255,255,255,0.12);
+  }
+
+  .klant-scroll-item:hover { color: rgba(255,255,255,0.9); }
+
+  @keyframes klanten-loop {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
 
   /* CONTACT */
   .contact {
@@ -433,15 +466,13 @@
       <li>Kleine organisaties zonder marketingafdeling</li>
     </ul>
   </div>
-  <div class="klanten-block">
-    <div class="klanten-title">Klanten</div>
-    <div class="klanten-list">
-      <div class="klant-item">Amorgos Zeilvakanties</div>
-      <div class="klant-item">FlexYachts</div>
-      <div class="klant-item">Dagboekreizen</div>
-      <div class="klant-item">Wiegersma Boomverzorging</div>
-      <div class="klant-item">EW-Parket</div>
-    </div>
+  <div class="klanten-block"></div>
+</section>
+
+<section class="klanten-scroll">
+  <div class="klanten-scroll-label">Zij werken met Koen</div>
+  <div class="klanten-scroll-wrapper">
+    <div class="klanten-scroll-track" id="klanten-track"></div>
   </div>
 </section>
 
@@ -470,5 +501,41 @@
   <div class="footer-copy">© 2026 Koen Hendriks — Heerhugowaard</div>
 </footer>
 
+<script>
+  const klanten = [
+    {naam: 'Airemotion', url: 'https://www.airemotion.nl/'},
+    {naam: 'Alice de Vos', url: 'https://www.alicedevos.nl/'},
+    {naam: 'Amorgos', url: 'https://www.amorgos.nl/'},
+    {naam: 'Balfoort Bouw', url: 'https://balfoortbouw.nl/'},
+    {naam: 'Boombeheer Woudstra', url: 'https://www.boombeheerwoudstra.nl/'},
+    {naam: 'Dagboekreizen', url: 'https://www.dagboekreizen.nl/'},
+    {naam: 'Flex Yachts', url: 'https://flexyachts.nl/'},
+    {naam: 'Mijn Groene Huis', url: 'https://www.mijngroenehuis.nu/'},
+    {naam: 'Hillebrand Groen', url: 'https://hillebrandgroen.nl/'},
+    {naam: 'Dakambulance Leersum', url: 'https://dakambulanceleersum.nl/'},
+    {naam: 'Intakt', url: 'https://www.intakt.com/'},
+    {naam: 'Study Travel', url: 'https://www.studytravel.nl/'},
+    {naam: 'County Hike', url: 'https://www.countyhike.nl/'},
+    {naam: 'Fiets Relax', url: 'https://www.fietsrelax.nl/'},
+    {naam: 'Dutch Bike Tours', url: 'https://www.dutch-biketours.nl/'},
+    {naam: 'Laurens Radiatoren', url: 'https://www.laurens-radiatoren.com/'},
+    {naam: 'Linda van der Voorn', url: 'https://lindavandervoorn.nl/'},
+    {naam: 'Nunatak', url: 'https://www.nunatak.nl/'},
+    {naam: 'Snow Event', url: 'https://www.snow-event.nl/'},
+    {naam: 'Wiegersma Boomverzorging', url: 'https://www.wiegersmaboomverzorging.nl/'},
+    {naam: 'Laxsjön Boom & Groen', url: 'https://www.laxsjonboomengroen.nl/'},
+    {naam: 'Leever', url: 'https://www.leever.nl/'},
+  ];
+
+  const track = document.getElementById('klanten-track');
+  [...klanten, ...klanten].forEach(k => {
+    const a = document.createElement('a');
+    a.href = k.url;
+    a.className = 'klant-scroll-item';
+    a.textContent = k.naam;
+    a.target = '_blank';
+    track.appendChild(a);
+  });
+</script>
 </body>
 </html>
